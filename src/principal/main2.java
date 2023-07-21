@@ -1,6 +1,7 @@
 package principal;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,7 +9,7 @@ import java.util.Scanner;
 
 import utilidades.ConexionBD;
 
-public class main {
+public class main2 {
 
 	public static void main(String[] args)
 	{
@@ -26,14 +27,18 @@ public class main {
 		Connection con = conexionBD.getConexion();
 		System.out.println("Liberando la conexion");
 		
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet resultado = null;
 		
 		try {
 			String consulta = "select codigo, nombre, precio, codigo_fabricante from producto"
-					+ " where precio > " + precio + "and nombre like '%" + nombre + "%'";
-			stmt = con.createStatement();
-			resultado = stmt.executeQuery(consulta);
+					+ " where precio > ? and nombre like concat('%',?,'%')";
+			stmt = con.prepareStatement(consulta);
+			
+			//Establecemos los parámetros
+			stmt.setDouble(1, precio);
+			stmt.setString(2, nombre);
+			resultado = stmt.executeQuery();
 			/*resultado = stmt.executeQuery(
 					"select codigo, nombre, precio, codigo_fabricante from producto"
 					+ " where precio > 210 and nombre like '%monitor%'");*/

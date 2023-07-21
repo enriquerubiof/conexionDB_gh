@@ -18,20 +18,25 @@ public class ConexionBD
 	public Connection getConexion()
 	{
 		if (conexion != null)
+		{
 			return this.conexion;
+		}
 		//Registramos el driver
-		try {
+		try
+		{
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			//Solicitar objeto conexion
 			this.conexion = DriverManager.getConnection(url, user, pass);
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e)
+		{
 			System.out.println("No se ha podido registrar la conexión");
 			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (SQLException e)
+		{
 			System.out.println("No se ha podido conectar. " + e.getMessage());
 			e.printStackTrace();
 		}
-		return this.conexion;
+			return this.conexion;
 	}
 	
 	public void desconectar()
